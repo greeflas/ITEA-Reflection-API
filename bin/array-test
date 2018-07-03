@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+
+$max = 100000;
+$array = [];
+$objectArray = new \SplFixedArray($max);
+
+$f1Start = microtime(true);
+for ($i = 0; $i < $max; $i++) {
+    $array[$i] = $i;
+}
+$f1End = microtime(true);
+
+$f2Start = microtime(true);
+for ($i = 0; $i < $max; $i++) {
+    $objectArray[$i] = $i;
+}
+$f2End = microtime(true);
+
+echo 'Native array: ' . ($f1End - $f1Start) . PHP_EOL;
+echo 'Spl fixed array: ' . ($f2End - $f2Start) . PHP_EOL;
