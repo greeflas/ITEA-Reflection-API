@@ -1,0 +1,32 @@
+#!/usr/bin/env php
+<?php
+
+$file = new \SplFileInfo(__DIR__ . '/../data/logs.log');
+var_dump($file->getRealPath());
+var_dump($file->getExtension());
+$file = null;
+
+$csv = new \SplFileObject(__DIR__ . '/../data/users.csv', 'r+');
+
+$users = [
+    ['name' => 'Tester 1', 'phone' => 123],
+    ['name' => 'Tester 2', 'phone' => 456],
+    ['name' => 'Tester 3', 'phone' => 789],
+];
+
+foreach ($users as $user) {
+    $csv->fputcsv($user);
+}
+
+$users = [];
+$csv->setFlags(\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY);
+
+foreach ($file as $row) {
+    if ($row) {
+        $users[] = $row;
+    }
+}
+
+\var_dump($users);
+
+$csv = null;
