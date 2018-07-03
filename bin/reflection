@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use App\Model\User;
+
+$factory = \phpDocumentor\Reflection\DocBlockFactory::createInstance();
+
+// class
+$classReflector = new \ReflectionClass(User::class);
+\var_dump($classReflector->getDocComment());
+$docBlock = $factory->create($classReflector);
+\var_dump($docBlock->getSummary());
+\var_dump($docBlock->getTagsByName('author')[0]->getEmail());
+
+// property
+$propReflector = new \ReflectionProperty(User::class, 'username');
+\var_dump($propReflector->getDocComment());
+$docBlock = $factory->create($propReflector);
+\var_dump($docBlock->getSummary());
+\var_dump((string) $docBlock->getTagsByName('var')[0]->getType());
+
+// method
+$methodReflector = new \ReflectionMethod(User::class, 'getUsername');
+\var_dump($methodReflector->getDocComment());
+$docBlock = $factory->create($methodReflector);
+$returnTag = $docBlock->getTagsByName('return')[0];
+\var_dump((string) $returnTag->getDescription());
+\var_dump((string) $returnTag->getType());
